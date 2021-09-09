@@ -1,26 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import Filter from './components/Filter'
 import PersonsForm from './components/PersonsForm'
 import PersonsList from './components/PersonsList'
 
 
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', phone: '040-123456' },
-    { name: 'Ada Lovelace', phone: '39-44-5323523' },
-    { name: 'Dan Abramov', phone: '12-43-234345' },
-    { name: 'Mary Poppendieck', phone: '39-23-6423122' }
-  ]) 
+  const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('New name...')
   const [ newNumber, setNewNumber] = useState('New Number')
   const [ search, setSearch] = useState('')
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+        
+      })
+  }, [])
   
   
-    const addPhone = (event) => {
+  const addPhone = (event) => {
     event.preventDefault()
     const phoneNumber = {
       name: newName,
-      phone: newNumber
+      number: newNumber
     }
     if (  persons.some( p => p['name'] === newName)  ) {
       window.alert(newName + " is already added to phonebook")
