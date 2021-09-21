@@ -61,6 +61,10 @@ const App = () => {
           setNotification(phoneNumber.name +' added to the phonebook')
           setTimeout( () => setNotification(null),5000)
         })
+        .catch(error => {
+          setNotification(error.response.data)
+          console.log(error.response.data)
+        })
     }
     
   }
