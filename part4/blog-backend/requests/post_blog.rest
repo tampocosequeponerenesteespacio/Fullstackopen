@@ -1,0 +1,14 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMSIsImlkIjoiNjE1NWQ2ZTA0MjQ2ZjhlMTk5YzhlY2JhIiwiaWF0IjoxNjMzMDIwMjgwfQ.wJSzr8vpSKfRdnqW7slgkeSkiKL5bufu2yCLzUDT3Is
+
+
+{   
+    "title": "post blog rest",
+    "author": "Tampo",
+    "url": "https://sap.cl",
+    "likes": 5
+
+
+       
+}
