@@ -5,6 +5,7 @@ const app = require('../app')
 const Blog = require('../models/blog')
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 const api = supertest(app)
 
@@ -35,6 +36,29 @@ describe('blog HTTP GET', () => {
   })
 
 describe('blog HTTP POST', () => {
+  let headers
+
+  beforeEach(async () => {
+    const newUser = {
+      username: 'username',
+      name: 'username',
+      password: 'password',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+
+    const result = await api
+      .post('/api/login')
+      .send(newUser)
+
+    headers = {
+      'Authorization': `bearer ${result.body.token}`
+    }
+  })
+
+
     test('request to the /api/blogs url successfully creates a new blog post', async () => {
         const blog = {
             title: 'El blog de tampo',
@@ -44,6 +68,7 @@ describe('blog HTTP POST', () => {
             }
         await api
             .post('/api/blogs')
+            .set(headers)
             .send(blog)
             .expect(200)
             .expect('Content-Type', /application\/json/)
@@ -63,6 +88,7 @@ describe('blog HTTP POST', () => {
             }
         await api
             .post('/api/blogs')
+            .set(headers)
             .send(blog)
             .expect(200)
             .expect('Content-Type', /application\/json/)
@@ -81,6 +107,7 @@ describe('blog HTTP POST', () => {
         }
         await api
             .post('/api/blogs')
+            .set(headers)
             .send(blog)
             .expect(400)
 
@@ -91,6 +118,7 @@ describe('blog HTTP POST', () => {
         }
         await api
             .post('/api/blogs')
+            .set(headers)
             .send(blog2)
             .expect(400)
     })
