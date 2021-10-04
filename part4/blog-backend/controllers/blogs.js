@@ -42,7 +42,7 @@ blogsRouter.post('/',middleware.userExtractor, async (request, response, next) =
   })     
   
 
-blogsRouter.delete('/:id', async (request, response, next) => {
+blogsRouter.delete('/:id', middleware.userExtractor, async (request, response, next) => {
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
   const blog = await Blog.findById(request.params.id)
   
@@ -59,6 +59,7 @@ blogsRouter.put('/:id', async (request, response, next) => {
   const body = request.body
 
   const blog = {
+    user: body.user,
     title: body.title,
     author: body.author,
     url: body.url,
