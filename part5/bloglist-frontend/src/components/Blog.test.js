@@ -22,10 +22,17 @@ test('renders content', () => {
   expect(component.container).not.toHaveTextContent('www.react')
 
   expect(component.container).not.toHaveTextContent('5')
-  
-  const element = component.queryByText(/tampo/i) // REGEX SEEMS TO WORK
-  console.log(element);
+
+    // REGEX SEEMS TO WORK
+  const element = component.getByText(/component testing is done with react-testing-library/i)
   expect(element).toBeDefined()
+
+  //FOR NOT CASE, USE QUERY or not.ToHaveTextContent
+  const element2 = component.queryByText(/www.react/)
+  expect(element2).toBeNull()
+
+  
+  
 
   
 })
@@ -44,11 +51,18 @@ test('clicking the button calls event handler once', () => {
     <Blog blog={blog} onClick={mockHandler}/>
   )
 
-  // getByText ISN'T working
   /*
-  const button = component.getByText('show') 
-  fireEvent.click(button)  
-
-  expect(mockHandler.mock.calls).toHaveLength(1)
+  const button = component.queryByText(/show/)        
+  fireEvent.click(button)      
+  expect(mockHandler.mock.calls).toHaveLength(1)     MOCK.CALLS DOESNT WORK, RETURNS EMPTY ARRAY
   */
+
+  const button = component.queryByText(/show/)        
+  fireEvent.click(button)   
+  expect(component.container).toHaveTextContent('www.react')
+
+
 })
+
+//5.15* and 5.16* CANT DO
+//handlers are inside the component
