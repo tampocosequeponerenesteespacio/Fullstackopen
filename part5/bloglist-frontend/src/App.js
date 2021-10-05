@@ -26,7 +26,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser') //SHOULD BE loggedBlogUser but...
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
