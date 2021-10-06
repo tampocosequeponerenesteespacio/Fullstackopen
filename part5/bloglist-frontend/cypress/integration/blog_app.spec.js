@@ -59,6 +59,50 @@ describe('when logged in', function() {
       cy.contains('a log created by automatically')
       cy.contains('cypress')
     })
+})
+
+describe('when there is at least one blog', function() {
+  beforeEach(function() {
+    cy.login({ username: 'username1', password: 'password1' })
+    cy.createBlog({ title:'First Blog', author:'Tampo', url:'www.cy.net' })
+  })
+
+    
+    it('user can like a blog', function() {
+      cy.get('.show').click()
+      cy.get('.like').click()
+      cy.contains('1')
+      cy.get('.like').click()
+    })
+
+    it('user can like a blog when there is more than noe blog', function() {
+      cy.createBlog({ title:'Second Blog', author:'Tampo', url:'www.cy.net' })
+      cy.createBlog({ title:'Third Blog', author:'Tampo', url:'www.cy.net' })
+
+      cy.contains('Second').contains('show').click()
+      cy.contains('Second').parent().contains('like').click()
+      cy.contains('Second').parent().contains('1')
+      cy.contains('Second').parent().contains('like').click()
+      cy.contains('Second').parent().contains('2')
+      
+
+    })
+
+    it('user can delete post', function() {
+      cy.get('.show').click()
+      cy.get('.remove').click()
+      cy.get("html").should("not.contain", "First Blog")
+
+    })
+
+    it.only('Blog ordered by likes', function() {
+      cy.createBlog({ title:'Second Blog', author:'Tampo', url:'www.cy.net', likes:5 })
+      cy.createBlog({ title:'Third Blog', author:'Tampo', url:'www.cy.net', likes: 10 })
+      cy.contains('Tampo').parent().contains('show').click()
+      cy.contains('Tampo').parent().contains('10')
+
+   })
+
   })
   
   
