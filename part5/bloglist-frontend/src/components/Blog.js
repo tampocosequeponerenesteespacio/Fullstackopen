@@ -49,7 +49,7 @@ const Blog = ({blog, blogs, setBlogs}) => {
   if (!showDetails) {
     return (
       <div className='blog' style={blogStyle}>
-        {blog.title}, {blog.author} <button onClick={handleDetails}>show</button>
+        {blog.title}, {blog.author} <button className='show' onClick={handleDetails}>show</button>
       </div>
     )
   } else {
@@ -57,9 +57,9 @@ const Blog = ({blog, blogs, setBlogs}) => {
       <div style={blogStyle}>
         <div>{blog.title} <button onClick={handleDetails}>hide</button></div> 
         <div>{blog.url}</div>
-        <div>{blog.likes} <button onClick={handleLike}>like</button></div>
+        <div>{blog.likes} <button className='like' onClick={handleLike}>like</button></div>
         <div>{blog.author}</div>
-        <div><button style={removeButtonStyle} onClick={handleRemove}>remove</button></div>
+        <div><button className='remove' style={removeButtonStyle} onClick={handleRemove}>remove</button></div>
       </div>
     )
   }
