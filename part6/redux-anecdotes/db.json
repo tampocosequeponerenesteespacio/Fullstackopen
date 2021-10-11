@@ -1,0 +1,94 @@
+{
+  "anecdotes": [
+    {
+      "content": "If it hurts, do it more often",
+      "id": "47145",
+      "votes": 0
+    },
+    {
+      "content": "Adding manpower to a late software project makes it later!",
+      "id": "21149",
+      "votes": 5
+    },
+    {
+      "content": "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
+      "id": "69581",
+      "votes": 0
+    },
+    {
+      "content": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+      "id": "36975",
+      "votes": 0
+    },
+    {
+      "content": "Premature optimization is the root of all evil.",
+      "id": "25170",
+      "votes": 0
+    },
+    {
+      "content": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
+      "id": "98312",
+      "votes": 0
+    },
+    {
+      "content": "Testing the anecdotes with db.json",
+      "votes": 0,
+      "id": "NeIMMOg"
+    },
+    {
+      "content": "This is a new anecdote",
+      "votes": 0,
+      "id": "dx9_ARD"
+    },
+    {
+      "content": "another anecdote",
+      "votes": 0,
+      "id": "kJmfp1J"
+    },
+    {
+      "content": "aaaaaaaaaaaaaa",
+      "votes": 1,
+      "id": "eHS0Iqv"
+    },
+    {
+      "content": "bababa",
+      "votes": 0,
+      "id": "sb3sb_4"
+    },
+    {
+      "content": "asdfasdfasdf",
+      "votes": 1,
+      "id": "RZEE3qf"
+    },
+    {
+      "content": "asdas22",
+      "votes": 1,
+      "id": "OR0aHTy"
+    },
+    {
+      "content": "Testing the anecdotes with db.json v2",
+      "votes": 2,
+      "id": "b8-Ef9z"
+    },
+    {
+      "content": "Testing the anecdotes with db.json",
+      "votes": 1,
+      "id": "VYBP0xM"
+    },
+    {
+      "content": "another anecdote",
+      "votes": 1,
+      "id": "tpbxsSq"
+    },
+    {
+      "content": "pp 66",
+      "votes": 1,
+      "id": "R26luTQ"
+    },
+    {
+      "content": "aaaaaaaaaaaaaa",
+      "votes": 8,
+      "id": "wO7RMnG"
+    }
+  ]
+}

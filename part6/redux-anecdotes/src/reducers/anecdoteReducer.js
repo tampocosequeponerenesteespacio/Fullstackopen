@@ -1,13 +1,9 @@
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
 
-const getId = () => (100000 * Math.random()).toFixed(0)
+import anecdotesServices from "../services/anecdotes"
+
+/*const getId = () => (100000 * Math.random()).toFixed(0)
+
+const initialState = anecdotesAtStart.map(asObject)
 
 const asObject = (anecdote) => {
   return {
@@ -15,14 +11,14 @@ const asObject = (anecdote) => {
     id: getId(),
     votes: 0
   }
-}
+}*/
 
-const initialState = anecdotesAtStart.map(asObject)
-
-const Anecdotereducer = (state = initialState, action) => {
+const Anecdotereducer = (state = [], action) => {
   
 
   switch (action.type) {
+    case 'INIT':
+      return action.data
     case 'VOTE':
       const id = action.data.id
       const anecdoteToChange = state.find ( (a) => a.id === id )
@@ -34,23 +30,38 @@ const Anecdotereducer = (state = initialState, action) => {
       return [...state, action.data]
     default:
       return state
-
-  }
-
-  return state
+  }  
 }
 
-export const handleVote = (id) => {
-  return {
-    type: 'VOTE',
-    data: {id}
+export const initAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdotesServices.getAll()
+    dispatch({
+      type: 'INIT',
+      data: anecdotes,
+    })
   }
 }
+
+export const handleVote = (anecdote) => {
+  return async dispatch => {
+    await anecdotesServices.vote({...anecdote, votes: anecdote.votes + 1})
+    dispatch({
+      type: 'VOTE',
+      data: anecdote
+    })
+  }
+}
+
+
 
 export const handleCreate = (content) => {
-  return {
-    type: 'NEW_ANECDOTE',
-    data: asObject(content)
+  return async dispatch => {
+    const newAnecdote = await anecdotesServices.createNew(content)
+    dispatch({
+      type: 'NEW_ANECDOTE',
+      data: newAnecdote
+    })
   }
 }
 

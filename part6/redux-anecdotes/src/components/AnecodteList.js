@@ -10,11 +10,10 @@ const AnecdoteList = () => {
     const anecdotes = anecdotesNoFilter.filter( a => a.content.toLowerCase().includes(filter.toLowerCase()))
     const dispatch = useDispatch()
 
-    const vote = (id) => {
-        const anecdote = anecdotes.find( a => a.id === id).content
-        dispatch(handleVote(id))
-        dispatch(handleNotification(`Voted for: '${anecdote}'`))
-        setTimeout( () => dispatch(handleNotification(null)), 5000)
+    const vote = (anecdote) => {
+        dispatch(handleVote(anecdote))
+        dispatch(handleNotification(`Voted for: '${anecdote.content}'`, 5))
+        
       }
 
 
@@ -29,7 +28,7 @@ const AnecdoteList = () => {
                 </div>
                 <div>
                   has {anecdote.votes}
-                  <button onClick={() => vote(anecdote.id)}>vote</button>
+                  <button onClick={() => vote(anecdote)}>vote</button>
                 </div>
               </div>
             )}
