@@ -1,22 +1,22 @@
 import React from "react"
 import { handleCreate } from "../reducers/anecdoteReducer"
 import { handleNotification } from "../reducers/notificationReducer"
-import { useDispatch } from "react-redux"
-import anecdotesServices from "../services/anecdotes"
+
+import { connect } from "react-redux"
 
 
 
-const AnecdoteForm = () => {
+const AnecdoteForm = ({handleCreate, handleNotification}) => {
 
-const dispatch = useDispatch()
+
 
 const addAnecdote = async (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
-    dispatch(handleCreate(content))
-    dispatch(handleNotification(`New anecdote creadted: '${content}'`))
-    setTimeout( () => dispatch(handleNotification(null)), 5000)
+    handleCreate(content)
+    handleNotification(`New anecdote creadted: '${content}'`, 5)
+    
     
   }
 
@@ -34,4 +34,4 @@ const addAnecdote = async (event) => {
 
 
 
-export default AnecdoteForm
+export default connect(null, {handleCreate, handleNotification})(AnecdoteForm)
