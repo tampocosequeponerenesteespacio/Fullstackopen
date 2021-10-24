@@ -1,0 +1,14 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMSIsImlkIjoiNjE1NWQ2ZTA0MjQ2ZjhlMTk5YzhlY2JhIiwiaWF0IjoxNjMzMTE0MTAzfQ.EvQL8o9fVtTeyxbDjrOL74DSGFF1YhzVBttIodNVm4M
+
+
+{   
+    "title": "post b11log restt",
+    "author": "Tampo111",
+    "url": "https://sap222.cl",
+    "likes": 5
+
+
+       
+}
