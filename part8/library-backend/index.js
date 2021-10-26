@@ -8,14 +8,13 @@ const MONGODB_URI = 'mongodb+srv://tampoco2:tampoco2@cluster0.wj2s6.mongodb.net/
 
 console.log('connecting to', MONGODB_URI)
 
-mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(() => {
     console.log('connected to MongoDB')
   })
   .catch((error) => {
     console.log('error connection to MongoDB:', error.message)
   })
-
 
 const typeDefs = gql`
   type Book {
@@ -67,20 +66,24 @@ const resolvers = {
       if (args.genre) return books.filter( b => b.genres.includes(args.genre) )
       return await Book.find({})
     },
-    allAuthors: async () => await Author.find({})
+    allAuthors: () => Author.find({})
   },
   Author: {
     bookCount: (root) => books.filter( b => b.author === root.name ).length
   },
   Mutation: {
-    addBook: (root, args) => {
-      if (books.find( b => b.author === args.author ) === undefined ) {
-        const author = {name: args.author, id: uuid()}
-        authors = authors.concat(author)
-        
+    addBook: async (root, args) => {      
+      let author = await Author.findOne({ name: args.author })
+      console.log('author: ',author);
+      
+      if ( !author ) {
+        author = new Author({name: args.author})
+        await author.save()        
       }
-      const book =  new Book({...args})
-      book.save()
+      // FOR SOME REASON, author "remembers" the ID
+      let book =  new Book({...args, author: author })
+      console.log("book: ",book);
+      await book.save()
     },
     editAuthor: (root, args) => {
       let author = authors.find( a => a.name === args.name)
