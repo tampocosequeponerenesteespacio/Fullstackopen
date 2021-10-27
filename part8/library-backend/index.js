@@ -8,7 +8,7 @@ const MONGODB_URI = 'mongodb+srv://tampoco2:tampoco2@cluster0.wj2s6.mongodb.net/
 
 console.log('connecting to', MONGODB_URI)
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+mongoose.connect(MONGODB_URI)
   .then(() => {
     console.log('connected to MongoDB')
   })
@@ -59,31 +59,45 @@ const resolvers = {
     bookCount: () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
-      if (args.author && args.genre) return (
-        books.filter(  b => b.author === args.author && b.genres.includes(args.genre)  )
-      )
-      if (args.author) return books.filter( b => b.author === args.author )
-      if (args.genre) return books.filter( b => b.genres.includes(args.genre) )
+
+
+      // if (args.author && args.genre) return (
+      //   books.filter(  b => b.author === args.author && b.genres.includes(args.genre)  )
+      // )
+      //if (args.author) return await Book.find({ "author.name": args.author})
+      if (args.author) {
+        let res = await Book.find({}).populate('author') //DONT FORGET TO POPULATE!!
+        
+        res = res.filter( b => { 
+          console.log(b.author);
+          return(b.author.name === args.author)}  )
+        
+        return (
+          res
+        )
+      }  
+
+      if (args.genre) return await Book.find({ genres: { $in: [args.genre]}  })
       return await Book.find({})
     },
-    allAuthors: () => Author.find({})
+    allAuthors: async () => await Author.find({})
   },
   Author: {
-    bookCount: (root) => books.filter( b => b.author === root.name ).length
+    bookCount: async (root) => await Book.find({ author: root.id }).countDocuments()
+    
   },
   Mutation: {
     addBook: async (root, args) => {      
       let author = await Author.findOne({ name: args.author })
-      console.log('author: ',author);
-      
+            
       if ( !author ) {
-        author = new Author({name: args.author})
-        await author.save()        
+        author = await new Author({name: args.author}).save()
+                
       }
       // FOR SOME REASON, author "remembers" the ID
       let book =  new Book({...args, author: author })
-      console.log("book: ",book);
       await book.save()
+      return book
     },
     editAuthor: (root, args) => {
       let author = authors.find( a => a.name === args.name)
