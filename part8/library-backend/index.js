@@ -60,8 +60,7 @@ const resolvers = {
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
 
-
-       if (args.author && args.genre) {
+      if (args.author && args.genre) {
         let res = await Book.find({ genres: { $in: [args.genre]}  }).populate('author')
         res = res.filter( b => b.author.name === args.author)      
         
@@ -70,8 +69,7 @@ const resolvers = {
        
       if (args.author) {
         let res = await Book.find({}).populate('author') //DONT FORGET TO POPULATE!!        
-        res = res.filter( b => {           
-          return(b.author.name === args.author)}  )        
+        res = res.filter( b => b.author.name === args.author )        
         return res
       }  
 
@@ -99,13 +97,16 @@ const resolvers = {
       await book.save()
       return book
     },
-    editAuthor: (root, args) => {
-      let author = authors.find( a => a.name === args.name)
-      if ( author ) {
-        author.born = args.setBornTo
-        return author
-      }
-      return null
+    editAuthor: async (root, args) => {
+      let author = await Author.findOneAndUpdate({ name: args.name}, { $set: { born: args.setBornTo }})
+      return author
+
+      // let author = authors.find( a => a.name === args.name)
+      // if ( author ) {
+      //   author.born = args.setBornTo
+      //   return author
+      // }
+      // return null
 
     }
   }
