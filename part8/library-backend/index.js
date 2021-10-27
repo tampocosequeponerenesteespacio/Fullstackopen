@@ -61,24 +61,24 @@ const resolvers = {
     allBooks: async (root, args) => {
 
 
-      // if (args.author && args.genre) return (
-      //   books.filter(  b => b.author === args.author && b.genres.includes(args.genre)  )
-      // )
-      //if (args.author) return await Book.find({ "author.name": args.author})
+       if (args.author && args.genre) {
+        let res = await Book.find({ genres: { $in: [args.genre]}  }).populate('author')
+        res = res.filter( b => b.author.name === args.author)      
+        
+         return res
+       }
+       
       if (args.author) {
-        let res = await Book.find({}).populate('author') //DONT FORGET TO POPULATE!!
-        
-        res = res.filter( b => { 
-          console.log(b.author);
-          return(b.author.name === args.author)}  )
-        
-        return (
-          res
-        )
+        let res = await Book.find({}).populate('author') //DONT FORGET TO POPULATE!!        
+        res = res.filter( b => {           
+          return(b.author.name === args.author)}  )        
+        return res
       }  
 
-      if (args.genre) return await Book.find({ genres: { $in: [args.genre]}  })
-      return await Book.find({})
+      if (args.genre) return await Book.find({ genres: { $in: [args.genre]}  }).populate('author')
+
+      return Book.find({}).populate('author')
+      
     },
     allAuthors: async () => await Author.find({})
   },
