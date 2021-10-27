@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
+import LoginForm from './components/LoginForm'
+import { useApolloClient } from '@apollo/client'
 
 //NOTIFICATION COMPONENT
 const ErrorNotification = ({errorMsg}) => {
@@ -14,10 +16,28 @@ const ErrorNotification = ({errorMsg}) => {
 const App = () => {
   const [page, setPage] = useState('authors')
   const [errorMsg, setErrorMsg] = useState(null)
+  const [token, setToken] = useState(localStorage.getItem("libraryapp-user-token"))
+  const client = useApolloClient()
 
   const handleError = (msg) => {
     setErrorMsg(msg)
     setTimeout( () => {setErrorMsg(null)},5000)
+  }
+
+  const logout = () => {
+    setToken(null)
+    localStorage.clear()
+    client.resetStore()
+  }
+
+  if (!token) {
+    return(
+      <div>
+        <ErrorNotification errorMsg={errorMsg} />
+        <LoginForm setToken={setToken} setError={handleError} />
+      </div>
+
+    )
   }
   
   
@@ -29,6 +49,7 @@ const App = () => {
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
         <button onClick={() => setPage('add')}>add book</button>
+        <button style={{marginLeft: "20px"}} onClick={() => logout()}>logout</button>
       </div>
       
       <ErrorNotification errorMsg={errorMsg} />      
