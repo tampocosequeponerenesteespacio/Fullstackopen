@@ -64,7 +64,7 @@ const Authors = (props) => {
         <div>
           name
           <select value={author} onChange={ (event) => setAuthor(event.target.value)} >
-            <option key="defaultoption" value=" " hidden selected></option>
+            <option key="defaultoption" value=" " hidden selected></option> {/*PREVENTS DEFAULT VALUE BE ""*/}
             {
             authors.map( a => <option key={a.name} value={a.name}>{a.name}</option>)
             }
