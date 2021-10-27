@@ -35,7 +35,6 @@ mutation AddBookMutation($title: String!, $published: Int!, $author: String!, $g
     addBook(title: $title, published: $published, author: $author, genres: $genres) {
       title
       published
-      author
       genres
     }
   }
@@ -45,8 +44,8 @@ mutation AddBookMutation($title: String!, $published: Int!, $author: String!, $g
 export const EDIT_AUTHOR = gql`
 mutation editAuthorBornyear($name: String!, $setBornTo: Int!) {
     editAuthor(name: $name, setBornTo: $setBornTo) {
-      born
       name
+      born
       bookCount
     }
   }
